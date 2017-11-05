@@ -8,7 +8,6 @@ class ClientNode
     
     sock.puts("get aaa")
     p sock.gets
-
     sock.close
   end
 

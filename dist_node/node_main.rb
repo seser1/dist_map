@@ -1,5 +1,9 @@
 require 'socket'
 
+#get host's ip adress from command line
+#(in order to get ip informations about other nodes)
+host_ip = ARGV[0]
+#port number is fixed
 port = 49153
 server = TCPServer.open(port)
 
