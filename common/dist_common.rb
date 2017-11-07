@@ -1,3 +1,9 @@
+
+
+
+
+
+
 #module which contains methods used by both client and node
 module DistCommon
       
@@ -5,5 +11,6 @@ module DistCommon
   def manage_iplist(s)
     
   end
+
 
 end
