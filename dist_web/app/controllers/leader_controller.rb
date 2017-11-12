@@ -1,0 +1,2 @@
+class LeaderController < ApplicationController
+end

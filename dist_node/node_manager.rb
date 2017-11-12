@@ -4,10 +4,13 @@ require 'json'
 
 class NodeManager
   port = 49153
+  @@iplist
     
   #Get(when startup) or update iplist from iphost
-  #(This method may have to use http because iplist contains many information and should be handled with xml, json and so on)
   def get_iplist(host_ip)
+
+    http_client = HTTPClient.new(host_ip)
+    iplist = JSON.parse(http_client.get())
 
     =begin
     sock = TCPSocket.open(host_ip,port)
@@ -19,12 +22,6 @@ class NodeManager
     
     return iplist
     =end
-
-    http_client = HTTPClient.new(host_ip)
-    res = JSON.parse(http_client.get())
-
-
-
 
   end
   
