@@ -18,6 +18,7 @@ while true
   #put([1], [2])
   if s[0]=="put" then
   hash[s[1]] = s[2]
+  p hash
   end
 
   #get([1])  
