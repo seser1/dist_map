@@ -17,13 +17,13 @@ while true
   
   #put([1], [2])
   if s[0]=="put" then
-  hash[s[1]] = s[2]
-  p hash
+    hash[s[1]] = s[2]
   end
 
   #get([1])  
   if s[0]=="get" then
-  client.write(hash[s[1]])
+    p hash[s[1]]
+    client.write(hash[s[1]])
   end
 
   p hash
