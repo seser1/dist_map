@@ -5,6 +5,7 @@ require 'json'
 #Port number is fixed
 #In future, port number must be shared in project using some procedure
 $port = 49153
+#IP adress of leader node
 $host_ip
 
 class NodeManager
@@ -38,7 +39,7 @@ class NodeManager
  
     #get([1])  
     if s[0]=="get" then
-      p @hash[s[1]]
+      #p @hash[s[1]]
       @client.write(@hash[s[1]])
     end
 
