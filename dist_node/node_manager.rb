@@ -2,11 +2,16 @@ require 'socket'
 require 'httpclient'
 require 'json'
 
+#Port number is fixed
+#In future, port number must be shared in project using some procedure
 $port = 49153
+$host_ip
 
 class NodeManager
   
-  def initialize()
+  def initialize(ip)
+    $host_ip = ip
+
     #server.close is may not needed because it will be closed
     #when the class instance be garvage collected.
     #(is it really true????)
