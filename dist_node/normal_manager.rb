@@ -2,15 +2,13 @@ require 'socket'
 require 'httpclient'
 require 'json'
 
-#Port number is fixed
-#In future, port number must be shared in project using some procedure
-$port = 49153
-#IP adress of leader node
-$host_ip
-
 class NomalManager
-  
-  def initialize(ip)
+    def initialize(ip)
+    #Port number is fixed
+    #In future, port number must be shared in project using some procedure
+    $port = 49153
+
+    #IP adress of leader node
     $leader_ip = ip
 
     #server.close is may not needed because it will be closed
@@ -52,9 +50,14 @@ class NomalManager
   end
 
   #Get(when startup) or update iplist from leader
-  def get_iplist(leader_ip)
-    http_client = HTTPClient.new(leader_ip)
-    @iplist = JSON.parse(http_client.get())
+  def get_iplist()
+    #http_client = HTTPClient.new(leader_ip)
+    #@iplist = JSON.parse(http_client.get())
+    sock = TCPSocket.open($leader_ip, $port)
+    sock.write("iplist")
+    @iplist = sock.read
+    #How to manage iplist must be considered
+    sock.close
   end
   
 end
