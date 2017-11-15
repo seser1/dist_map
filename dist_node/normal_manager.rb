@@ -8,7 +8,7 @@ $port = 49153
 #IP adress of leader node
 $host_ip
 
-class NodeManager
+class NomalManager
   
   def initialize(ip)
     $leader_ip = ip

@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + "/node_manager"
+require File.dirname(__FILE__) + "/normal_manager"
+require File.dirname(__FILE__) + "/leader_manager"
 
 class Node
     
@@ -9,7 +10,10 @@ class Node
       #when the class instance be garvage collected.
       #(is it really true????)
       @server = TCPServer.open($port)
-  
+
+      @manager = nomal_manager.new(leader_ip)
+      #@manager = leader_manager.new(leader_ip)
+      
       @hash={}
       @iplist={}    
     end
