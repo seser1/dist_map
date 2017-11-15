@@ -11,7 +11,7 @@ $host_ip
 class NodeManager
   
   def initialize(ip)
-    $host_ip = ip
+    $leader_ip = ip
 
     #server.close is may not needed because it will be closed
     #when the class instance be garvage collected.
@@ -51,9 +51,9 @@ class NodeManager
   def update
   end
 
-  #Get(when startup) or update iplist from iphost
-  def get_iplist(host_ip)
-    http_client = HTTPClient.new(host_ip)
+  #Get(when startup) or update iplist from leader
+  def get_iplist(leader_ip)
+    http_client = HTTPClient.new(leader_ip)
     @iplist = JSON.parse(http_client.get())
   end
   
