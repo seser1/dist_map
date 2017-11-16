@@ -1,6 +1,7 @@
 require 'socket'
 require 'httpclient'
 require 'json'
+require 'digest/md5'
 
 class NomalManager
     def initialize(ip)
@@ -10,14 +11,16 @@ class NomalManager
 
     #IP adress of leader node
     $leader_ip = ip
+    #IP adress of this node
+    $this_ip
 
     #server.close is may not needed because it will be closed
     #when the class instance be garvage collected.
     #(is it really true????)
     @server = TCPServer.open($port)
 
-    @hash={}
-    @iplist={}    
+    @hash= {}
+    @iplist= []
   end
 
   def thread
@@ -30,21 +33,38 @@ class NomalManager
   
   def allocate(s)
     if s[0]=="put" then
-      net_put(s[1], s[2])
+      this_put(s[1], s[2])
     end
   end
   
-  def net_put(key, value)
-    
+  def this_put(key, value)
+    node_ip = get_node_ip(key)
+    if(node_ip == $this_ip)
+      #This node has the value
+      @hash[key] = value
+    else
+      #Other node has the value
+      net_put(node_ip, key, value)
+    end
+  end
+
+  def net_put(node_ip, key, value)
   end
 
   #Get node's IP address from key
   def get_node_ip(key)
-
-    
+    return @iplist[get_hash(key, @iplist.size)]
   end
 
-
+  #Get str's hash number
+  def get_hash(str, elem_num)
+    tmp = 0
+    s = str.unpack("C*")
+    for i in 1..s.size
+      tmp += s[i-1]
+    end
+    return tmp % elem_num
+  end
 
 =begin
 Old version of allocate
