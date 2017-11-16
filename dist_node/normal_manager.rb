@@ -14,7 +14,7 @@ class NomalManager
     #IP adress of this node
     $this_ip
 
-    #server.close is may not needed because it will be closed
+    #server.close may not be needed because it will be closed
     #when the class instance be garvage collected.
     #(is it really true????)
     @server = TCPServer.open($port)
@@ -34,12 +34,14 @@ class NomalManager
   def allocate(s)
     if s[0]=="put" then
       this_put(s[1], s[2])
+    elsif s[0] == "get" then
+      this_get(s[1])
     end
   end
   
   def this_put(key, value)
     node_ip = get_node_ip(key)
-    if(node_ip == $this_ip)
+    if node_ip == $this_ip then
       #This node has the value
       @hash[key] = value
     else
@@ -49,6 +51,9 @@ class NomalManager
   end
 
   def net_put(node_ip, key, value)
+  end
+
+  def this_get(key)
   end
 
   #Get node's IP address from key
@@ -94,7 +99,7 @@ Old version of allocate
     #http_client = HTTPClient.new(leader_ip)
     #@iplist = JSON.parse(http_client.get())
     sock = TCPSocket.open($leader_ip, $port)
-    sock.write("iplist")
+    sock.write("get_iplist")
     @iplist = sock.read
     #How to manage iplist must be considered
     sock.close

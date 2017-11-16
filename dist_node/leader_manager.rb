@@ -17,4 +17,17 @@ class LeaderManager < NormalManager
     @hash={}
     @iplist={}    
   end  
+
+  def allocate(s)
+    if s[0]=="put" then
+      this_put(s[1], s[2])
+    elsif s[0] == "get" then
+        this_get(s[1])
+    elsif s[0] == "get_iplist" then
+        ret_iplist()
+    end
+  end
+
+  def ret_iplist
+  end
 end  
