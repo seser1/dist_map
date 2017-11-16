@@ -27,8 +27,27 @@ class NomalManager
 
     @client.close
   end
+  
+  def allocate(s)
+    if s[0]=="put" then
+      net_put(s[1], s[2])
+    end
+  end
+  
+  def net_put(key, value)
+    
+  end
+
+  #Get node's IP address from key
+  def get_node_ip(key)
+
+    
+  end
 
 
+
+=begin
+Old version of allocate
   def allocate(s)
       #put([1], [2])
     if s[0]=="put" then
@@ -43,6 +62,7 @@ class NomalManager
 
   p @hash
   end
+=end
 
   #run when iplist is updated (triggerd by request from leader server)
   #get new iplist , reculclate and remap the hash map
