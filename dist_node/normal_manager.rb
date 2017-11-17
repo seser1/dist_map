@@ -26,6 +26,7 @@ class NomalManager
     regist_ip()
   end
 
+  #Executed in node.rb
   def thread
     @client = @server.accept
 
@@ -35,10 +36,13 @@ class NomalManager
   end
   
   def allocate(s)
-    if s[0]=="put" then
+    case s[0]
+    when "put" then
       this_put(s[1], s[2])
-    elsif s[0] == "get" then
+    when "get" then
       this_get(s[1])
+    when "iplist" then
+      update_iplist(s)
     end
   end
   
@@ -98,9 +102,10 @@ class NomalManager
     return tmp % elem_num
   end
 
-  #run when iplist is updated (triggerd by request from leader server)
-  #get new iplist , reculclate and remap the hash map
-  def update
+  #Run when iplist is updated (triggerd by request from leader server)
+  #F(Future work) get new iplist , reculclate and remap the hash map
+  def update_iplist(s)
+    @iplist = s.delete("iplist")
   end
 
   #Register this node's ip address to leader node

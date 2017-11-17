@@ -16,6 +16,7 @@ class Node
   @manager = NomalManager.new(leader_ip)
   end
 
+  #main roop
   def run
     while true
       @manager.thread

@@ -19,14 +19,15 @@ class LeaderManager < NormalManager
   end  
 
   def allocate(s)
-    if s[0]=="put" then
+    case s[0]
+    when "put" then
       this_put(s[1], s[2])
-    elsif s[0] == "get" then
-        this_get(s[1])
-    elsif s[0] == "get_iplist" then
-        ret_iplist()
-    elsif s[0] == "regist" then
-        regist_node()
+    when "get" then
+      this_get(s[1])
+    when "get_iplist" then
+      ret_iplist()
+    when "regist" then
+      regist_node()
     end
   end
 
