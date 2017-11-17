@@ -25,9 +25,18 @@ class LeaderManager < NormalManager
         this_get(s[1])
     elsif s[0] == "get_iplist" then
         ret_iplist()
+    elsif s[0] == "regist" then
+        regist_node()
     end
   end
 
   def ret_iplist
+    #Return iplist to the connecting node (using @client defined in nomal_manager.thread)
+    
+  end
+  
+  def regist_node
+    #Register a new node. After registing, return iplist to the node.
+
   end
 end  

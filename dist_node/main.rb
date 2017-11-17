@@ -8,7 +8,11 @@ require File.dirname(__FILE__) + "/node"
 #(In order to get ip informations about other nodes)
 leader_ip = ARGV[0]
 
-node = Node.new(leader_ip)
+if leader_ip == nil
+  node = Node.new()
+else
+  node = Node.new(leader_ip)  
+end
 
 node.run
 

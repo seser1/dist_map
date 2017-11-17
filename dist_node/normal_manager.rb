@@ -4,23 +4,24 @@ require 'json'
 require 'digest/md5'
 
 class NomalManager
-    def initialize(ip)
+    def initialize(l_ip)
+    @hash= {}
+    @iplist= []
+  
     #Port number is fixed
     #In future, port number must be shared in project using some procedure
     $port = 49153
 
     #IP adress of leader node
-    $leader_ip = ip
+    $leader_ip = l_ip
     #IP adress of this node
-    $this_ip
+    $this_ip = regist_ip()
 
+    #Start to wait as a server
     #server.close may not be needed because it will be closed
     #when the class instance be garvage collected.
     #(is it really true????)
     @server = TCPServer.open($port)
-
-    @hash= {}
-    @iplist= []
   end
 
   def thread
@@ -95,37 +96,27 @@ class NomalManager
     return tmp % elem_num
   end
 
-=begin
-Old version of allocate
-  def allocate(s)
-      #put([1], [2])
-    if s[0]=="put" then
-      @hash[s[1]] = s[2]
-    end
- 
-    #get([1])  
-    if s[0]=="get" then
-      #p @hash[s[1]]
-      @client.write(@hash[s[1]])
-    end
-
-  p @hash
-  end
-=end
-
   #run when iplist is updated (triggerd by request from leader server)
   #get new iplist , reculclate and remap the hash map
   def update
   end
 
-  #Get(when startup) or update iplist from leader
+  #Register this node's ip address to leader node
+  #This method is called only one time (in initialize)
+  #This method returns ip address of this node
+  def regist_ip
+    sock = TCPSocket.open($leader_ip)
+    sock.write("regist")
+    ret_ip = sock.gets
+    sock.close
+    return ret_ip
+  end
+
+  #Get(in initialize) or update iplist from leader
   def get_iplist()
-    #http_client = HTTPClient.new(leader_ip)
-    #@iplist = JSON.parse(http_client.get())
     sock = TCPSocket.open($leader_ip, $port)
     sock.write("get_iplist")
-    @iplist = sock.read
-    #How to manage iplist must be considered
+    @iplist = (sock.read).split(' ')
     sock.close
   end
 end
