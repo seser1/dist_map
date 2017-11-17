@@ -1,7 +1,6 @@
 require 'socket'
 require 'httpclient'
 require 'json'
-require 'digest/md5'
 
 class NomalManager
     def initialize(l_ip)
@@ -14,14 +13,17 @@ class NomalManager
 
     #IP adress of leader node
     $leader_ip = l_ip
-    #IP adress of this node
-    $this_ip = regist_ip()
-
+    
     #Start to wait as a server
     #server.close may not be needed because it will be closed
     #when the class instance be garvage collected.
     #(is it really true????)
     @server = TCPServer.open($port)
+    
+    #Register ip address of this node to leader node
+    #After registing, leader node distributes iplist to all node.
+    #So this method must be executed after setting up the @server
+    regist_ip()
   end
 
   def thread

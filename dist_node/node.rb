@@ -7,13 +7,13 @@ class Node
 
   #Initializing as a leader node
   def initialize()
-    @manager = leader_manager.new()
+    @manager = LeaderManager.new()
   end
   
   #Initializing as a normal node
   def initialize(ip)
   $leader_ip = ip
-  @manager = nomal_manager.new(leader_ip)
+  @manager = NomalManager.new(leader_ip)
   end
 
   def run
