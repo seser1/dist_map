@@ -51,9 +51,33 @@ class NomalManager
   end
 
   def net_put(node_ip, key, value)
+    sock = TCPSocket.open(node_ip ,$port)
+    sock.write("put " + key + " " + value)
+    sock.close
   end
 
   def this_get(key)
+    node_ip = get_node_ip(key)
+    if node_ip == $this_ip then
+      #This node has the value
+      if @hash[key] != nil
+        @client.write(@hash[key])
+      else
+        #Tshi action is to debug: in future, return nil
+        @client.write("No value exists in target node.")
+      end
+    else
+      #Other node has the value
+      @client.write(net_get(node_ip, key))
+    end
+  end
+
+  def net_get(node_ip, key)
+    sock = TCPSocket.open(node_ip ,$port)
+    sock.write("get " + key)
+    s = sock.gets
+    sock.close
+    return s
   end
 
   #Get node's IP address from key
@@ -104,5 +128,4 @@ Old version of allocate
     #How to manage iplist must be considered
     sock.close
   end
-  
 end
