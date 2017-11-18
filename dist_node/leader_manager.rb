@@ -2,6 +2,8 @@ require File.dirname(__FILE__) + "/normal_manager"
 
 class LeaderManager < NormalManager
   def initialize()
+    puts 'initialize'
+    
     #Port number is fixed
     #In future, port number must be shared in project using some procedure
     $port = 49153
@@ -16,6 +18,8 @@ class LeaderManager < NormalManager
 
     @hash={}
     @iplist=[]
+
+    puts 'initialization finished'
   end  
 
   def allocate(s)
@@ -33,6 +37,8 @@ class LeaderManager < NormalManager
 
   #Disributing iplist to all nodes
   def distribute_iplist
+    puts 'Distributing iplist'    
+
     s = "iplist " + iplist.join(' ')
     for ip in iplist
       sock = TCPSocket.open(ip ,$port)
@@ -44,6 +50,8 @@ class LeaderManager < NormalManager
   #Register a new node (using @client defined in nomal_manager.thread)
   #After registing, notice new iplist to all nodes  
   def regist_node
+    puts 'Registering new node'
+    
     new_ip = @client.peeraddr[3]
     iplist.push(new_ip)
     distribute_iplist()

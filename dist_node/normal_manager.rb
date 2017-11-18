@@ -4,6 +4,8 @@ require 'json'
 
 class NomalManager
     def initialize(l_ip)
+    puts 'initialize'
+      
     @hash= {}
     @iplist= []
   
@@ -24,6 +26,8 @@ class NomalManager
     #After registing, leader node distributes iplist to all node.
     #So this method must be executed after setting up the @server
     regist_ip()
+
+    puts 'initialization finished'
   end
 
   #Executed in node.rb
@@ -50,6 +54,7 @@ class NomalManager
     node_ip = get_node_ip(key)
     if node_ip == $this_ip then
       #This node has the value
+      puts 'Stored key: ' + key + ' value: ' + value 
       @hash[key] = value
     else
       #Other node has the value
@@ -58,6 +63,8 @@ class NomalManager
   end
 
   def net_put(node_ip, key, value)
+    puts 'net_put key: ' + key + ' value: ' + value + 'node_ip' + node_ip 
+    
     sock = TCPSocket.open(node_ip ,$port)
     sock.write("put " + key + " " + value)
     sock.close
@@ -65,12 +72,14 @@ class NomalManager
 
   def this_get(key)
     node_ip = get_node_ip(key)
+
+    #This node has the value
     if node_ip == $this_ip then
-      #This node has the value
+      puts 'Returened value associated with the key: ' + key      
       if @hash[key] != nil
         @client.write(@hash[key])
       else
-        #Tshi action is to debug: in future, return nil
+        #This action is to debug: in future, return nil
         @client.write("No value exists in target node.")
       end
     else
@@ -80,6 +89,8 @@ class NomalManager
   end
 
   def net_get(node_ip, key)
+    puts 'net_get key: ' + key + 'node_ip' + node_ip 
+    
     sock = TCPSocket.open(node_ip ,$port)
     sock.write("get " + key)
     s = sock.gets
@@ -112,6 +123,8 @@ class NomalManager
   #This method is called only one time (in initialize)
   #This method returns ip address of this node
   def regist_ip
+    puts 'Registering IP address of this node'
+
     sock = TCPSocket.open($leader_ip)
     sock.write("regist")
     ret_ip = sock.gets
@@ -121,6 +134,8 @@ class NomalManager
 
   #Get(in initialize) or update iplist from leader
   def get_iplist()
+    puts 'Updating iplist'
+    
     sock = TCPSocket.open($leader_ip, $port)
     sock.write("get_iplist")
     @iplist = (sock.read).split(' ')
