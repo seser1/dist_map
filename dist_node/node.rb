@@ -12,8 +12,8 @@ class Node
   
   #Initializing as a normal node
   def initialize(ip)
-  $leader_ip = ip
-  @manager = NomalManager.new(leader_ip)
+    $leader_ip = ip
+    @manager = NomalManager.new(leader_ip)
   end
 
   #main roop
@@ -22,5 +22,6 @@ class Node
       @manager.thread
     end
   end
+
 end
   
