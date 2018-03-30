@@ -1,15 +1,10 @@
-require File.dirname(__FILE__) + "/normal_manager"
+require File.dirname(__FILE__) + "/normal_node"
 
-class LeaderManager < NormalManager
-  def initialize()
-    puts 'initialize'
-    
+class LeaderNode < NormalNode
+  def initialize()    
     #Port number is fixed
     #In future, port number must be shared in project using some procedure
     $port = 49153
-
-    #IP adress of leader node
-    $leader_ip = ip
 
     #server.close is may not needed because it will be closed
     #when the class instance be garvage collected.
@@ -18,8 +13,6 @@ class LeaderManager < NormalManager
 
     @hash={}
     @iplist=[]
-
-    puts 'initialization finished'
   end  
 
   def allocate(s)
@@ -47,7 +40,7 @@ class LeaderManager < NormalManager
     end
   end
 
-  #Register a new node (using @client defined in nomal_manager.thread)
+  #Register a new node (using @client defined in nomal_node.thread)
   #After registing, notice new iplist to all nodes  
   def regist_node
     puts 'Registering new node'

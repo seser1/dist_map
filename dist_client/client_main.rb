@@ -14,7 +14,7 @@ def run(s)
     puts 'faild to connect leader node'
     return
   end
-  if s[0] == 'put'
+  if s[0] == 'put' then
     sock.write("put #{s[1]} #{s[2]}")
   elsif s[0] == 'get'
     sock.puts("get #{s[1]}")

@@ -2,10 +2,8 @@ require 'socket'
 require 'httpclient'
 require 'json'
 
-class NomalManager
-    def initialize(l_ip)
-    puts 'initialize'
-      
+class NormalNode
+  def initialize(l_ip)      
     @hash= {}
     @iplist= []
   
@@ -26,8 +24,6 @@ class NomalManager
     #After registing, leader node distributes iplist to all node.
     #So this method must be executed after setting up the @server
     regist_ip()
-
-    puts 'initialization finished'
   end
 
   #Executed in node.rb
@@ -76,7 +72,7 @@ class NomalManager
     #This node has the value
     if node_ip == $this_ip then
       puts 'Returened value associated with the key: ' + key      
-      if @hash[key] != nil
+      if @hash[key] != nil then
         @client.write(@hash[key])
       else
         #This action is to debug: in future, return nil

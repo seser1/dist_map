@@ -1,6 +1,6 @@
 #Move as hash on network
 
-require File.dirname(__FILE__) + "/node"
+require File.dirname(__FILE__) + "/lib/node"
 
 #Running argument: ruby main.rb LeaderIPAddress
 
@@ -8,10 +8,10 @@ require File.dirname(__FILE__) + "/node"
 #(In order to get ip informations about other nodes)
 leader_ip = ARGV[0]
 
-if leader_ip == nil
+if leader_ip == nil then
   node = Node.new()
 else
-  node = Node.new(leader_ip)  
+  node = Node.new(leader_ip)
 end
 
 node.run
