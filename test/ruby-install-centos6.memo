@@ -1,0 +1,23 @@
+# Memos of commands to install ruby for centos6 (using rbenv)
+# Uses to create test environment on docker
+
+yum -y install git
+yum -y groupinstall "Development tools"
+yum -y install openssl-devel zlib-devel
+
+
+cd /opt/
+git clone git://github.com/sstephenson/rbenv.git
+mkdir /opt/rbenv/plugins
+cd /opt/rbenv/plugins
+git clone git://github.com/sstephenson/ruby-build.git
+
+export RBENV_ROOT="/opt/rbenv"
+export PATH="${RBENV_ROOT}/bin:${PATH}"
+eval "$(rbenv init -)"
+
+yum install -y readline-devel 
+
+rbenv install 2.4.4
+
+rbenv global 2.4.4
