@@ -1,0 +1,19 @@
+FROM centos:6
+
+RUN set -x && \
+  yum -y install git \
+  yum -y groupinstall "Development tools" \
+  yum -y install openssl-devel zlib-devel \
+  yum -y install readline-devel  \
+  cd /opt/ \
+  git clone git://github.com/sstephenson/rbenv.git \
+  mkdir /opt/rbenv/plugins \
+  cd /opt/rbenv/plugins \
+  git clone git://github.com/sstephenson/ruby-build.git \
+  export RBENV_ROOT="/opt/rbenv" \
+  export PATH="${RBENV_ROOT}/bin:${PATH}" \
+  eval "$(rbenv init -)" \
+  rbenv install 2.4.4 \
+  rbenv global 2.4.4 \
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
